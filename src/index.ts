@@ -20,7 +20,7 @@ export const MEDIUM_TTL  = ttl.MEDIUM_TTL
 export const LONG_TTL    = ttl.LOCK_TTL
 export const LOCK_TTL    = ttl.LOCK_TTL
 
-export default function cache (opts ?: CacheOpts) : Promise<AbstractCache> {
+export function cache (opts ?: CacheOpts) : Promise<AbstractCache> {
   return factory(opts)
 }
 

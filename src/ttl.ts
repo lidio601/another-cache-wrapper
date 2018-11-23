@@ -8,3 +8,11 @@ export const SHORT_TTL   = 600      // 10 minutes
 export const MEDIUM_TTL  = 1800     // 30 minutes
 export const LONG_TTL    = 3600     // 1 hour
 export const LOCK_TTL    = 20       // 20 sec
+
+export default {
+  DEFAULT_TTL,
+  SHORT_TTL,
+  MEDIUM_TTL,
+  LONG_TTL,
+  LOCK_TTL
+}

@@ -19,7 +19,7 @@ exports.LOCK_TTL = ttl_1.default.LOCK_TTL;
 function cache(opts) {
     return factory_1.default(opts);
 }
-exports.default = cache;
+exports.cache = cache;
 function cacheKey(key, prefixes) {
     return cacheKey_1.default(key, prefixes);
 }

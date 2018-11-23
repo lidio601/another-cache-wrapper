@@ -1,6 +1,6 @@
 {
   "name": "another-cache-wrapper",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "custom cache interface",
   "main": "dist/index.js",
   "scripts": {

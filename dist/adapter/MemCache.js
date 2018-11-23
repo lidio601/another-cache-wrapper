@@ -31,7 +31,6 @@ class MemCache extends AbstractCache_1.default {
         // test if opts contains the memcached server parameter
         if (!index_1.default.has(opts, 'memcache') || !opts || index_1.default.isEmpty(opts.memcache)) {
             const err = new Error('missing MEMCACHED config');
-            this.error('missing MEMCACHED config', opts);
             return bluebird_1.default.reject(err);
         }
         // test memcached server reachability

@@ -29,25 +29,23 @@ class AbstractCache {
      * @param {any} key
      * @param {any} value
      * @param {Number} ttl
-     * @returns {Promise<any>}
+     * @returns {Promise<boolean>}
      */
     add(key, value, ttl) {
         return this
             .get(key)
-            .then(value => {
-            if (value) {
+            .then(stored => {
+            if (stored)
                 throw new Error('Already locked');
-            }
-            else {
-                return this.set(key, value, ttl);
-            }
+            else
+                return this.set(key, value, ttl).then(() => true);
         });
     }
     lock(key, ttl) {
         ttl = lodash_1.default.defaultTo(ttl, ttl_1.LOCK_TTL);
         key = cacheKey_1.default(key);
         let recursionCount = maxRecursionCount;
-        var checkOrFail = () => this.add(key, ttl)
+        var checkOrFail = () => this.add(key, true, ttl)
             .then(stored => {
             if (!stored) {
                 this.log(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);

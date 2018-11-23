@@ -28,7 +28,6 @@ class FileCache extends MemoryCache_1.default {
         // test if opts contains the memcached server parameter
         if (!lodash_1.default.has(opts, 'cachedir')) {
             const err = new Error('missing CACHEDIR config');
-            this.error('missing CACHEDIR config', opts);
             return bluebird_1.default.reject(err);
         }
         this.log('setup', opts);

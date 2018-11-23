@@ -87,4 +87,10 @@ describe('MemCache test', () => {
   test ('cacheKey', () => {
     return expect(cache.get(['complex'])).resolves.toBe('ok')
   })
+
+  test ('add first call', () =>
+    expect(cache.add('addTest', 1)).resolves.toBeTruthy())
+
+  test ('add subsequent call', () =>
+    expect(cache.add('addTest', 1)).rejects.toThrow())
 })

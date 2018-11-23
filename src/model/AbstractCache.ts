@@ -60,8 +60,8 @@ export default abstract class AbstractCache {
   add(key : any, value : any, ttl ?: number) : Promise<any> {
     return this
       .get(key)
-      .then(value => {
-        if (value) throw new Error('Already locked')
+      .then(stored => {
+        if (stored) throw new Error('Already locked')
         else return this.set(key, value, ttl).then(() => true)
       })
   }
@@ -84,7 +84,7 @@ export default abstract class AbstractCache {
     let recursionCount = maxRecursionCount;
   
     var checkOrFail = () => 
-      this.add(key, ttl)
+      this.add(key, true, ttl)
   
         .then(stored => {
           if (!stored) {

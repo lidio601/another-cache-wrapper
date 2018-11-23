@@ -37,7 +37,6 @@ class IronCache extends AbstractCache_1.default {
             index_1.default.isEmpty(opts.ironcache.project) ||
             index_1.default.isEmpty(opts.ironcache.secret)) {
             const err = new Error('missing IRONCACHE config');
-            this.error('missing IRONCACHE config', err);
             return bluebird_1.default.reject(err);
         }
         return bluebird_1.default.resolve()

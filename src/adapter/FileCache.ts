@@ -32,7 +32,7 @@ export default class FileCache extends MemoryCache {
     // test if opts contains the memcached server parameter
     if (!_.has(opts, 'cachedir')) {
       const err = new Error('missing CACHEDIR config')
-      this.error('missing CACHEDIR config', opts)
+
       return Promise.reject(err)
     }
 

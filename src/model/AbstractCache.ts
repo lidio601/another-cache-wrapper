@@ -55,17 +55,14 @@ export default abstract class AbstractCache {
    * @param {any} key
    * @param {any} value
    * @param {Number} ttl
-   * @returns {Promise<any>}
+   * @returns {Promise<boolean>}
    */
   add(key : any, value : any, ttl ?: number) : Promise<any> {
     return this
       .get(key)
       .then(value => {
-        if (value) {
-          throw new Error('Already locked')
-        } else {
-          return this.set(key, value, ttl)
-        }
+        if (value) throw new Error('Already locked')
+        else return this.set(key, value, ttl).then(() => true)
       })
   }
 

@@ -42,7 +42,7 @@ export default class IronCache extends AbstractCache {
         _.isEmpty(opts.ironcache.project) ||
         _.isEmpty(opts.ironcache.secret)) {
       const err = new Error('missing IRONCACHE config')
-      this.error('missing IRONCACHE config', err)
+
       return Promise.reject(err)
     }
 

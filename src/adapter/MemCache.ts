@@ -35,7 +35,7 @@ export default class MemCache extends AbstractCache {
     // test if opts contains the memcached server parameter
     if (!_.has(opts, 'memcache') || !opts || _.isEmpty(opts.memcache)) {
       const err = new Error('missing MEMCACHED config')
-      this.error('missing MEMCACHED config', opts)
+
       return Promise.reject(err)
     }
 

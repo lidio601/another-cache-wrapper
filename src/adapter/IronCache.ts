@@ -131,9 +131,9 @@ export default class IronCache extends AbstractCache {
             expires_in: ttl || DEFAULT_TTL,
             add: true
           }, err => {
-            if (err && err.message === 'Key already exists.') resolve(false)
-            else if (err) reject(err)
-            else resolve(true)
+            // if (err && err.message === 'Key already exists.') return resolve(false)
+            if (err) return reject(err)
+            resolve(true)
           });
         } catch (err) {
           reject(err)

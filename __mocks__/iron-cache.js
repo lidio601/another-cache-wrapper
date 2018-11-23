@@ -1,4 +1,6 @@
 
+const instance = {}
+
 module.exports.createClient = function (opts) {
   console.log('iron-cache opts', opts)
 
@@ -20,6 +22,7 @@ module.exports.createClient = function (opts) {
     })
     if (key === 'get error 1') return cb(new Error('get error 1'))
     if (key === 'get error 2') throw new Error('get error 2')
+    if (key === 'addTest') return cb(null, instance.addTest || null)
     throw new Error('mocked get not implemented for key: ' + key)
   }
 
@@ -27,6 +30,8 @@ module.exports.createClient = function (opts) {
     if (key === 'set error 1') return cb(new Error('set error 1'))
     if (key === 'set error 2') throw new Error('set error 2')
     if (key === 'locked') return cb(new Error('Key already exists.'))
+    if (key === 'addTest' && param.add && instance.addTest) return cb(new Error('Key already exists.'))
+    if (key === 'addTest') instance.addTest = param.value
     return cb(null, JSON.parse(param.value))
   }
 

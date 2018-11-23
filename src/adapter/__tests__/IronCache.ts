@@ -86,6 +86,9 @@ describe('IronCache test', () => {
   test ('delete', () =>
     expect(cache.forget('todelete')).resolves.toBeTruthy())
 
+  test ('delete missing', () =>
+    expect(cache.forget('missing')).resolves.toBeTruthy())
+
   test ('delete reject', () =>
     expect(cache.forget('delete error 1')).rejects.toThrow('delete error 1'))
 

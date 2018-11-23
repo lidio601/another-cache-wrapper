@@ -31,12 +31,15 @@ export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
   // [IronCache, MemCache, FileCache]
   return test(IronCache)
     .catch(err => {
+      console.log(err)
       return test(MemCache)
     })
     .catch(err => {
+      console.log(err)
       return test(FileCache)
     })
     .catch(err => {
+      console.log(err)
       return test(MemoryCache)
     })
     .then(_instance => {

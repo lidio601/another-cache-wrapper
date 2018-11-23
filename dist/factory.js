@@ -26,12 +26,15 @@ function factory(opts) {
     // [IronCache, MemCache, FileCache]
     return test(IronCache_1.default)
         .catch(err => {
+        console.log(err);
         return test(MemCache_1.default);
     })
         .catch(err => {
+        console.log(err);
         return test(FileCache_1.default);
     })
         .catch(err => {
+        console.log(err);
         return test(MemoryCache_1.default);
     })
         .then(_instance => {

@@ -153,7 +153,7 @@ export default class IronCache extends AbstractCache {
                 "msg": "Deleted."
               }
             */
-            if (err && err.message === "Key not found.") resolve(false)
+            if (err && err.message === "Key not found.") resolve(true)
             else if (err) reject(err)
             else resolve(true)
           })

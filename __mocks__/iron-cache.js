@@ -38,6 +38,7 @@ module.exports.createClient = function (opts) {
   this.del = function (namespace, key, cb) {
     if (key === 'delete error 1') return cb(new Error('delete error 1'))
     if (key === 'delete error 2') throw new Error('delete error 2')
+    if (key === 'missing') return cb(new Error('Key not found.'))
     if (key === 'todelete') return cb(null)
   }
 

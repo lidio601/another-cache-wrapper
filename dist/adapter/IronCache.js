@@ -148,7 +148,7 @@ class IronCache extends AbstractCache_1.default {
                       }
                     */
                     if (err && err.message === "Key not found.")
-                        resolve(false);
+                        resolve(true);
                     else if (err)
                         reject(err);
                     else

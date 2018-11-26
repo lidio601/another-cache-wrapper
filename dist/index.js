@@ -10,7 +10,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const factory_1 = __importDefault(require("./factory"));
 const cacheKey_1 = __importDefault(require("./cacheKey"));
 const ttl_1 = __importDefault(require("./ttl"));
-const TAG = '[lib/cache]';
 exports.DEFAULT_TTL = ttl_1.default.DEFAULT_TTL;
 exports.SHORT_TTL = ttl_1.default.SHORT_TTL;
 exports.MEDIUM_TTL = ttl_1.default.MEDIUM_TTL;

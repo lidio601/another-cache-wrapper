@@ -12,8 +12,6 @@ import factory from './factory'
 import {default as _cacheKey} from './cacheKey'
 import {default as ttl} from './ttl'
 
-const TAG = '[lib/cache]'
-
 export const DEFAULT_TTL = ttl.DEFAULT_TTL
 export const SHORT_TTL   = ttl.SHORT_TTL
 export const MEDIUM_TTL  = ttl.MEDIUM_TTL

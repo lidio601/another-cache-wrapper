@@ -10,6 +10,9 @@ import { LocalStore } from 'super-cache'
 import MemoryCache from './MemoryCache'
 import AbstractCache from '../model/AbstractCache'
 import CacheOpts from '../model/CacheOpts'
+import logger from '../model/Logger'
+
+const TAG = '[lib/cache/file]'
 
  /**
  * Implements AbstractCache
@@ -17,11 +20,6 @@ import CacheOpts from '../model/CacheOpts'
  * to cache keys
  */
 export default class FileCache extends MemoryCache {
-
-  tag() {
-    return '[lib/cache/file]'
-  }
-
   setup(opts ?: CacheOpts) {
     const self : AbstractCache = this
 
@@ -36,7 +34,7 @@ export default class FileCache extends MemoryCache {
       return Promise.reject(err)
     }
 
-    this.log('setup', opts)
+    logger.debug(`${TAG} setup`, opts)
     return Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
       try {
@@ -50,7 +48,7 @@ export default class FileCache extends MemoryCache {
 
         resolve(this)
       } catch (err) {
-        this.error("Error while connecting to filecache", err);
+        logger.error(`${TAG} error while connecting to filecache`, err);
 
         reject(err)
       }

@@ -11,20 +11,13 @@ const bluebird_1 = __importDefault(require("bluebird"));
 const lodash_1 = __importDefault(require("lodash"));
 const cacheKey_1 = __importDefault(require("../cacheKey"));
 const ttl_1 = require("../ttl");
+const Logger_1 = __importDefault(require("../model/Logger"));
+const TAG = '[lib/cache]';
 const maxRecursionCount = 10;
 /**
  * Base class for a cache wrapper
  */
 class AbstractCache {
-    tag() {
-        return '[lib/cache]';
-    }
-    log(msg, arg) {
-        console.log(this.tag(), msg, lodash_1.default.defaultTo(arg, {}));
-    }
-    error(msg, arg) {
-        console.error(this.tag(), msg, lodash_1.default.defaultTo(arg, {}));
-    }
     /**
      * @param {any} key
      * @param {any} value
@@ -32,8 +25,7 @@ class AbstractCache {
      * @returns {Promise<boolean>}
      */
     add(key, value, ttl) {
-        return this
-            .get(key)
+        return this.get(key)
             .then(stored => {
             if (stored)
                 throw new Error('Already locked');
@@ -41,6 +33,10 @@ class AbstractCache {
                 return this.set(key, value, ttl).then(() => true);
         });
     }
+    /**
+     * @param {any} key
+     * @param {Number} ttl
+     */
     lock(key, ttl) {
         ttl = lodash_1.default.defaultTo(ttl, ttl_1.LOCK_TTL);
         key = cacheKey_1.default(key);
@@ -48,14 +44,14 @@ class AbstractCache {
         var checkOrFail = () => this.add(key, true, ttl)
             .then(stored => {
             if (!stored) {
-                this.log(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
+                Logger_1.default.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
             }
             else {
-                this.log(`CACHE::${key}::LOCKED (recursion=${recursionCount})`);
+                Logger_1.default.info(`CACHE::${key}::LOCKED (recursion=${recursionCount})`);
             }
             return stored;
         }, err => {
-            this.log(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
+            Logger_1.default.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
             return false;
         })
             .then(result => {
@@ -72,7 +68,7 @@ class AbstractCache {
     }
     unlock(key) {
         key = cacheKey_1.default(key);
-        this.log(`CACHE::${key}::UNLOCKED`);
+        Logger_1.default.info(`CACHE::${key}::UNLOCKED`);
         return this.forget(key);
     }
 }

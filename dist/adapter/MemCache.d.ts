@@ -10,7 +10,6 @@ import CacheOpts from '../model/CacheOpts';
 * and uses Memcached
 */
 export default class MemCache extends AbstractCache {
-    tag(): string;
     setup(opts?: CacheOpts): any;
     close(): Promise<boolean>;
     set(key: any, value: any, ttl?: number): any;

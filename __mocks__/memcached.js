@@ -3,7 +3,7 @@ const instance = {}
 
 module.exports = function (opts) {
   this.on = function (event, cb) {}
-  this.end = function () {}
+  this.end = () => true
 
   console.log('memcached opts', opts)
 

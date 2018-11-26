@@ -11,6 +11,9 @@ import AbstractCache from '../model/AbstractCache'
 import CacheOpts from '../model/CacheOpts'
 import cacheKey from '../cacheKey'
 import { DEFAULT_TTL } from '../ttl'
+import logger from '../model/Logger'
+
+const TAG = '[lib/cache/memory]'
 
  /**
  * Implements AbstractCache
@@ -18,11 +21,6 @@ import { DEFAULT_TTL } from '../ttl'
  * to cache keys
  */
 export default class MemoryCache extends AbstractCache {
-
-  tag() {
-    return '[lib/cache/memory]'
-  }
-
   setup(opts ?: CacheOpts) {
     const self : AbstractCache = this
 
@@ -30,7 +28,7 @@ export default class MemoryCache extends AbstractCache {
       return Promise.resolve(self)
     }
 
-    this.log('setup', opts)
+    logger.debug(`${TAG} setup`, opts)
     return Promise.resolve()
     .then(() => new Promise((resolve, reject) => {
       try {
@@ -38,7 +36,7 @@ export default class MemoryCache extends AbstractCache {
 
         resolve(this)
       } catch (err) {
-        this.error("Error while connecting to filecache", err);
+        logger.error(`${TAG} Error while connecting to memorycache`, err)
 
         reject(err)
       }
@@ -47,10 +45,8 @@ export default class MemoryCache extends AbstractCache {
   }
 
   close() {
-    this.log('closing')
-
+    logger.debug(`${TAG} closing`)
     this.cache = undefined
-
     return Promise.resolve(true)
   }
 

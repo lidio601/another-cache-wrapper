@@ -11,7 +11,6 @@ import CacheOpts from '../model/CacheOpts';
 * to cache keys
 */
 export default class MemoryCache extends AbstractCache {
-    tag(): string;
     setup(opts?: CacheOpts): any;
     close(): Promise<boolean>;
     set(key: any, value: any, ttl?: number): any;

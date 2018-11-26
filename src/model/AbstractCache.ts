@@ -10,27 +10,16 @@ import { default as _ } from 'lodash'
 import cacheKey from '../cacheKey'
 import CacheOpts from './CacheOpts'
 import { LOCK_TTL } from '../ttl'
+import logger from '../model/Logger'
 
+const TAG = '[lib/cache]'
 const maxRecursionCount = 10
 
 /**
  * Base class for a cache wrapper
  */
 export default abstract class AbstractCache {
-
   protected cache : undefined|any
-
-  protected tag () : string {
-    return '[lib/cache]'
-  }
-
-  protected log (msg : any, arg ?: any) {
-    console.log(this.tag(), msg, _.defaultTo(arg, {}))
-  }
-
-  protected error (msg : any, arg ?: any|Error) {
-    console.error(this.tag(), msg, _.defaultTo(arg, {}))
-  }
 
   /**
    * @param {CacheOpts} opts
@@ -58,8 +47,7 @@ export default abstract class AbstractCache {
    * @returns {Promise<boolean>}
    */
   add(key : any, value : any, ttl ?: number) : Promise<any> {
-    return this
-      .get(key)
+    return this.get(key)
       .then(stored => {
         if (stored) throw new Error('Already locked')
         else return this.set(key, value, ttl).then(() => true)
@@ -78,6 +66,10 @@ export default abstract class AbstractCache {
    */
   abstract forget(key : any) : Promise<boolean>
 
+  /**
+   * @param {any} key 
+   * @param {Number} ttl 
+   */
   public lock (key : any, ttl : number) : Promise<boolean> {
     ttl = _.defaultTo(ttl, LOCK_TTL)
     key = cacheKey(key)
@@ -88,14 +80,14 @@ export default abstract class AbstractCache {
   
         .then(stored => {
           if (!stored) {
-            this.log(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
+            logger.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
           } else {
-            this.log(`CACHE::${key}::LOCKED (recursion=${recursionCount})`)
+            logger.info(`CACHE::${key}::LOCKED (recursion=${recursionCount})`)
           }
   
           return stored
         }, err => {
-          this.log(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
+          logger.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
 
           return false
         })
@@ -118,7 +110,7 @@ export default abstract class AbstractCache {
   public unlock (key : any) : Promise<boolean> {
     key = cacheKey(key)
   
-    this.log(`CACHE::${key}::UNLOCKED`)
+    logger.info(`CACHE::${key}::UNLOCKED`)
     return this.forget(key)
   }
 }

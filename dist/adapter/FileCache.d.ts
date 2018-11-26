@@ -10,6 +10,5 @@ import CacheOpts from '../model/CacheOpts';
 * to cache keys
 */
 export default class FileCache extends MemoryCache {
-    tag(): string;
     setup(opts?: CacheOpts): any;
 }

@@ -9,9 +9,6 @@ import CacheOpts from './CacheOpts';
  */
 export default abstract class AbstractCache {
     protected cache: undefined | any;
-    protected tag(): string;
-    protected log(msg: any, arg?: any): void;
-    protected error(msg: any, arg?: any | Error): void;
     /**
      * @param {CacheOpts} opts
      * @returns {Promise<AbstractCache>}
@@ -45,6 +42,10 @@ export default abstract class AbstractCache {
      * @returns {Promise<boolean>}
      */
     abstract forget(key: any): Promise<boolean>;
+    /**
+     * @param {any} key
+     * @param {Number} ttl
+     */
     lock(key: any, ttl: number): Promise<boolean>;
     unlock(key: any): Promise<boolean>;
 }

@@ -12,6 +12,7 @@ import FileCache from './adapter/FileCache'
 import IronCache from './adapter/IronCache'
 import MemCache from './adapter/MemCache'
 import CacheOpts from './model/CacheOpts'
+import logger from './model/Logger'
 
 let instance : false | AbstractCache = false
 
@@ -19,33 +20,40 @@ const TAG = '[lib/cache/factory]'
 
 export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
   if (instance) {
+    logger.trace(`${TAG} returning cached instance`)
     return Promise.resolve(instance)
   }
 
   const test = (type : new () => AbstractCache) : Promise<AbstractCache> => {
+    logger.trace(`${TAG} trying to instantiate ${type}`)
     let test : AbstractCache = new type()
-
     return test.setup(opts)
   }
 
   // [IronCache, MemCache, FileCache]
   return test(IronCache)
     .catch(err => {
-      console.log(err)
+      logger.error(`${TAG} IronCache error`, err)
       return test(MemCache)
     })
     .catch(err => {
-      console.log(err)
+      logger.error(`${TAG} MemCache error`, err)
       return test(FileCache)
     })
     .catch(err => {
-      console.log(err)
+      logger.error(`${TAG} FileCache error`, err)
       return test(MemoryCache)
+    })
+    .catch(err => {
+      logger.error(`${TAG} MemoryCache error`, err)
+      throw err
     })
     .then(_instance => {
       instance = _instance
-      console.log(TAG, 'setup with', instance)
+      logger.info(`${TAG} new instance created`, instance)
   
+      // replace close function
+      // to reset the internal state of this module
       const origClose = instance.close
       _.assignIn(instance, {
         close: () => {
@@ -53,6 +61,7 @@ export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
             return Promise.resolve(true)
           }
   
+          logger.info(`${TAG} close called`)
           return origClose.apply(instance, null)
             .then(result => {
               instance = false

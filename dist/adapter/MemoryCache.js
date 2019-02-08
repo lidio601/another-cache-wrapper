@@ -12,8 +12,7 @@ const super_cache_1 = require("super-cache");
 const AbstractCache_1 = __importDefault(require("../model/AbstractCache"));
 const cacheKey_1 = __importDefault(require("../cacheKey"));
 const ttl_1 = require("../ttl");
-const Logger_1 = require("../model/Logger");
-const logger = Logger_1.getLogger();
+const Logger_1 = __importDefault(require("../model/Logger"));
 const TAG = '[lib/cache/memory]';
 /**
 * Implements AbstractCache
@@ -26,7 +25,7 @@ class MemoryCache extends AbstractCache_1.default {
         if (this.cache) {
             return bluebird_1.default.resolve(self);
         }
-        logger.debug(`${TAG} setup`, opts);
+        Logger_1.default().debug(`${TAG} setup`, opts);
         return bluebird_1.default.resolve()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
@@ -34,14 +33,14 @@ class MemoryCache extends AbstractCache_1.default {
                 resolve(this);
             }
             catch (err) {
-                logger.error(`${TAG} Error while connecting to memorycache`, err);
+                Logger_1.default().error(`${TAG} Error while connecting to memorycache`, err);
                 reject(err);
             }
         }))
             .then(() => this);
     }
     close() {
-        logger.debug(`${TAG} closing`);
+        Logger_1.default().debug(`${TAG} closing`);
         this.cache = undefined;
         return bluebird_1.default.resolve(true);
     }

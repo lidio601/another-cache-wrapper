@@ -12,9 +12,8 @@ import AbstractCache from '../model/AbstractCache'
 import CacheOpts from '../model/CacheOpts'
 import cacheKey from '../cacheKey'
 import { DEFAULT_TTL } from '../ttl'
-import { getLogger } from '../model/Logger'
+import logger from '../model/Logger'
 
-const logger = getLogger()
 const TAG = '[lib/cache/ironcache]'
 
  /**
@@ -32,7 +31,7 @@ export default class IronCache extends AbstractCache {
     }
 
     // test if opts contains the ironcache server parameter
-    logger.debug(`${TAG} setup`, opts)
+    logger().debug(`${TAG} setup`, opts)
     if (_.isUndefined(opts) || 
         !_.has(opts, 'ironcache') ||
         !opts.ironcache ||
@@ -58,7 +57,7 @@ export default class IronCache extends AbstractCache {
   }
 
   close() {
-    logger.debug(`${TAG} closing`)
+    logger().debug(`${TAG} closing`)
     this.cache = undefined
     return Promise.resolve(true)
   }

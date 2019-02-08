@@ -11,9 +11,8 @@ import CacheOpts from './model/CacheOpts'
 import factory from './factory'
 import {default as _cacheKey} from './cacheKey'
 import {default as ttl} from './ttl'
-import { getLogger } from './model/Logger'
+import logger from './model/Logger'
 
-const logger = getLogger()
 export const DEFAULT_TTL = ttl.DEFAULT_TTL
 export const SHORT_TTL   = ttl.SHORT_TTL
 export const MEDIUM_TTL  = ttl.MEDIUM_TTL
@@ -46,7 +45,7 @@ export function cachedMethodCall (
     // if this method fails return live result
     // like if it wasn't wrapped
     if (_.isError(partial)) {
-      logger.error('cache :: error while extracting cachekey from args', partial)
+      logger().error('cache :: error while extracting cachekey from args', partial)
 
       // fallback to call unwrapped method
       return method.apply(null, args)
@@ -60,7 +59,7 @@ export function cachedMethodCall (
 
     // if result is found in cache
     if (!_.isNil(cachedResult)) {
-      logger.debug('cache :: found cached result for', cacheKey)
+      logger().debug('cache :: found cached result for', cacheKey)
 
       // return it
       return cachedResult

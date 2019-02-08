@@ -10,9 +10,8 @@ import { default as _ } from 'lodash'
 import cacheKey from '../cacheKey'
 import CacheOpts from './CacheOpts'
 import { LOCK_TTL } from '../ttl'
-import { getLogger } from '../model/Logger'
+import logger from '../model/Logger'
 
-const logger = getLogger()
 const TAG = '[lib/cache]'
 const maxRecursionCount = 10
 
@@ -81,14 +80,14 @@ export default abstract class AbstractCache {
   
         .then(stored => {
           if (!stored) {
-            logger.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
+            logger().warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
           } else {
-            logger.info(`CACHE::${key}::LOCKED (recursion=${recursionCount})`)
+            logger().info(`CACHE::${key}::LOCKED (recursion=${recursionCount})`)
           }
   
           return stored
         }, err => {
-          logger.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
+          logger().warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`)
 
           return false
         })
@@ -111,7 +110,7 @@ export default abstract class AbstractCache {
   public unlock (key : any) : Promise<boolean> {
     key = cacheKey(key)
   
-    logger.info(`CACHE::${key}::UNLOCKED`)
+    logger().info(`CACHE::${key}::UNLOCKED`)
     return this.forget(key)
   }
 }

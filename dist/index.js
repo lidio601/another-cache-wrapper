@@ -19,8 +19,7 @@ const index_1 = __importDefault(require("lodash/index"));
 const factory_1 = __importDefault(require("./factory"));
 const cacheKey_1 = __importDefault(require("./cacheKey"));
 const ttl_1 = __importDefault(require("./ttl"));
-const Logger_1 = require("./model/Logger");
-const logger = Logger_1.getLogger();
+const Logger_1 = __importDefault(require("./model/Logger"));
 exports.DEFAULT_TTL = ttl_1.default.DEFAULT_TTL;
 exports.SHORT_TTL = ttl_1.default.SHORT_TTL;
 exports.MEDIUM_TTL = ttl_1.default.MEDIUM_TTL;
@@ -46,7 +45,7 @@ function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identit
             // if this method fails return live result
             // like if it wasn't wrapped
             if (index_1.default.isError(partial)) {
-                logger.error('cache :: error while extracting cachekey from args', partial);
+                Logger_1.default().error('cache :: error while extracting cachekey from args', partial);
                 // fallback to call unwrapped method
                 return method.apply(null, args);
             }
@@ -56,7 +55,7 @@ function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identit
             const cachedResult = yield cache.get(cacheKey);
             // if result is found in cache
             if (!index_1.default.isNil(cachedResult)) {
-                logger.debug('cache :: found cached result for', cacheKey);
+                Logger_1.default().debug('cache :: found cached result for', cacheKey);
                 // return it
                 return cachedResult;
             }

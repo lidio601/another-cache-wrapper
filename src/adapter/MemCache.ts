@@ -13,10 +13,9 @@ import AbstractCache from '../model/AbstractCache'
 import CacheOpts from '../model/CacheOpts'
 import cacheKey from '../cacheKey'
 import { DEFAULT_TTL } from '../ttl'
-import { getLogger } from '../model/Logger'
+import logger from '../model/Logger'
 
-const logger = getLogger()
-setLogger(logger)
+setLogger(logger())
 
 const TAG = '[lib/cache/memcached]'
 
@@ -33,7 +32,7 @@ export default class MemCache extends AbstractCache {
     }
 
     // test if opts contains the memcached server parameter
-    logger.debug(`${TAG} setup`, opts)
+    logger().debug(`${TAG} setup`, opts)
     if (!_.has(opts, 'memcache') || !opts || _.isEmpty(opts.memcache)) {
       const err = new Error('missing MEMCACHED config')
 
@@ -44,7 +43,7 @@ export default class MemCache extends AbstractCache {
     const url = 'http://' + opts.memcache
     return isReachable(url, false)
       .then(reachable => {
-        logger.info(`${TAG} memcached host reachability`, {
+        logger().info(`${TAG} memcached host reachability`, {
           reachable,
           url
         })
@@ -56,24 +55,24 @@ export default class MemCache extends AbstractCache {
         // https://hub.docker.com/_/memcached/
         // docker run --rm -it -p 11211:11211 memcached:alpine memcached -m 64
         // https://github.com/ctavan/node-memcached
-        logger.debug(`${TAG} connecting to memcached`, { url })
+        logger().debug(`${TAG} connecting to memcached`, { url })
         this.cache = new Memcached(opts.memcache, {})
 
         this.cache.on('failure', details =>
-          logger.warn(`${TAG} server ${details.server} went down due to: ${details.messages.join('')}`, details))
+          logger().warn(`${TAG} server ${details.server} went down due to: ${details.messages.join('')}`, details))
 
         this.cache.on('reconnecting', details =>
-            logger.info(`${TAG} total downtime caused by server ${details.server}: ${details.totalDownTime}ms`, details))
+            logger().info(`${TAG} total downtime caused by server ${details.server}: ${details.totalDownTime}ms`, details))
 
         this.cache.on('issue', details =>
-          logger.info(`${TAG} issue caused by server ${details.server}: ${details.totalDownTime}ms`, details))
+          logger().info(`${TAG} issue caused by server ${details.server}: ${details.totalDownTime}ms`, details))
 
         return this
       })
   }
 
   close() {
-    logger.debug(`${TAG} closing`)
+    logger().debug(`${TAG} closing`)
     this.cache && this.cache.end() && (this.cache = undefined)
     return Promise.resolve(true)
   }

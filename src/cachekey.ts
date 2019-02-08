@@ -13,7 +13,8 @@ export default function cacheKey (key : any, prefixes ?: string[]|string) : stri
       result = hash(key)
   }
 
-  if (!_.isEmpty(prefixes)) {
+  if (!_.isNil(prefixes)) {
+    prefixes = _.flatten([prefixes])
     prefixes = _.join(prefixes, '_')
     prefixes = _.toUpper(prefixes)
     result = _.join([prefixes, result], '_')

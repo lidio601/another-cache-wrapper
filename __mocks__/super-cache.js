@@ -1,6 +1,8 @@
 
 const instance = {}
 
+let val = null
+
 const mock = function (opts) {
   console.log('super-cache opts', opts)
 
@@ -16,7 +18,10 @@ const mock = function (opts) {
     if (key === 'get error 1') return cb(new Error('get error 1'))
     if (key === 'get error 2') throw new Error('get error 2')
     if (key === 'addTest') return cb(null, instance.addTest || null)
-    throw new Error('mocked get not implemented for key: ' + key)
+    // throw new Error('mocked get not implemented for key: ' + key)
+    if (key === 'TEST_989db2448f309bfdd99b513f37c84b8f5794d2b5') return cb(null, val)
+    if (key === 'TEST3_989db2448f309bfdd99b513f37c84b8f5794d2b5') return cb(null, 10)
+    return cb(null)
   }
 
   this.set = function (key, value, ttl, cb) {
@@ -24,6 +29,7 @@ const mock = function (opts) {
     if (key === 'set error 1') return cb(new Error('set error 1'))
     if (key === 'set error 2') throw new Error('set error 2')
     if (key === 'addTest') instance.addTest = value
+    if (key === 'TEST_989db2448f309bfdd99b513f37c84b8f5794d2b5') val = value
     return cb(null, value)
   }
 

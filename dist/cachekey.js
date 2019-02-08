@@ -14,7 +14,8 @@ function cacheKey(key, prefixes) {
     if (index_1.default.isArray(key) || index_1.default.isObject(key)) {
         result = object_hash_1.default(key);
     }
-    if (!index_1.default.isEmpty(prefixes)) {
+    if (!index_1.default.isNil(prefixes)) {
+        prefixes = index_1.default.flatten([prefixes]);
         prefixes = index_1.default.join(prefixes, '_');
         prefixes = index_1.default.toUpper(prefixes);
         result = index_1.default.join([prefixes, result], '_');

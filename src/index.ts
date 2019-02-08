@@ -19,6 +19,8 @@ export const MEDIUM_TTL  = ttl.MEDIUM_TTL
 export const LONG_TTL    = ttl.LOCK_TTL
 export const LOCK_TTL    = ttl.LOCK_TTL
 
+export { setLogger } from './model/Logger'
+
 export function cache (opts ?: CacheOpts) : Bluebird<AbstractCache> {
   return factory(opts)
 }

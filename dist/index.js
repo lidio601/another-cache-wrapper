@@ -25,6 +25,8 @@ exports.SHORT_TTL = ttl_1.default.SHORT_TTL;
 exports.MEDIUM_TTL = ttl_1.default.MEDIUM_TTL;
 exports.LONG_TTL = ttl_1.default.LOCK_TTL;
 exports.LOCK_TTL = ttl_1.default.LOCK_TTL;
+var Logger_2 = require("./model/Logger");
+exports.setLogger = Logger_2.setLogger;
 function cache(opts) {
     return factory_1.default(opts);
 }

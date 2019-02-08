@@ -10,6 +10,7 @@ export declare const SHORT_TTL: number;
 export declare const MEDIUM_TTL: number;
 export declare const LONG_TTL: number;
 export declare const LOCK_TTL: number;
+export { setLogger } from './model/Logger';
 export declare function cache(opts?: CacheOpts): Bluebird<AbstractCache>;
 export declare function cacheKey(key: any, prefixes?: string[] | string): string;
 export declare function cachedMethodCall(prefix: string[] | string, method: () => any, keyExtractor?: () => any, ttl?: number): () => Promise<any>;

@@ -13,4 +13,4 @@ export declare const LOCK_TTL: number;
 export { setLogger } from './model/Logger';
 export declare function cache(opts?: CacheOpts): Bluebird<AbstractCache>;
 export declare function cacheKey(key: any, prefixes?: string[] | string): string;
-export declare function cachedMethodCall(prefix: string[] | string, method: () => any, keyExtractor?: () => any, ttl?: number): () => Promise<any>;
+export declare function cachedMethodCall(prefix: string[] | string, method: () => any, keyExtractor?: () => any, ttl?: number, thisArg?: any): () => Promise<any>;

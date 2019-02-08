@@ -35,7 +35,7 @@ function cacheKey(key, prefixes) {
     return cacheKey_1.default(key, prefixes);
 }
 exports.cacheKey = cacheKey;
-function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identity, ttl = exports.DEFAULT_TTL) {
+function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identity, ttl = exports.DEFAULT_TTL, thisArg = null) {
     return function () {
         return __awaiter(this, arguments, void 0, function* () {
             const args = Array.prototype.slice.call(arguments, 0);
@@ -47,7 +47,7 @@ function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identit
             if (index_1.default.isError(partial)) {
                 Logger_1.default().error('cache :: error while extracting cachekey from args', partial);
                 // fallback to call unwrapped method
-                return method.apply(null, args);
+                return method.apply(thisArg, args);
             }
             // workout cache key for this params
             const cacheKey = cacheKey_1.default(partial, prefix);
@@ -60,7 +60,7 @@ function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identit
                 return cachedResult;
             }
             // otherwise call the function
-            const liveResult = yield index_1.default.attempt(method, args);
+            const liveResult = yield index_1.default.attempt(index_1.default.bind(method, thisArg, args));
             // if it raises an error
             if (index_1.default.isError(liveResult)) {
                 // "return" it

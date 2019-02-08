@@ -33,7 +33,8 @@ export function cachedMethodCall (
   prefix : string[]|string,
   method : () => any,
   keyExtractor : () => any = _.identity,
-  ttl : number = DEFAULT_TTL
+  ttl : number = DEFAULT_TTL,
+  thisArg : any = null
 ) : () => Promise<any> {
   return async function () {
     const args = Array.prototype.slice.call(arguments, 0)
@@ -48,7 +49,7 @@ export function cachedMethodCall (
       logger().error('cache :: error while extracting cachekey from args', partial)
 
       // fallback to call unwrapped method
-      return method.apply(null, args)
+      return method.apply(thisArg, args)
     }
 
     // workout cache key for this params
@@ -66,7 +67,7 @@ export function cachedMethodCall (
     }
 
     // otherwise call the function
-    const liveResult = await _.attempt(method, args)
+    const liveResult = await _.attempt(_.bind(method, thisArg, args))
 
     // if it raises an error
     if (_.isError(liveResult)) {

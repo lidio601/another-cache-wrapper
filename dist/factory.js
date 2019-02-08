@@ -18,11 +18,11 @@ let instance = false;
 const TAG = '[lib/cache/factory]';
 function factory(opts) {
     if (instance) {
-        Logger_1.default().trace(`${TAG} returning cached instance`);
+        Logger_1.default().debug(`${TAG} returning cached instance`);
         return bluebird_1.default.resolve(instance);
     }
     const test = (type) => {
-        Logger_1.default().trace(`${TAG} trying to instantiate ${type}`);
+        Logger_1.default().debug(`${TAG} trying to instantiate ${type}`);
         let test = new type();
         return test.setup(opts);
     };

@@ -20,12 +20,12 @@ const TAG = '[lib/cache/factory]'
 
 export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
   if (instance) {
-    logger().trace(`${TAG} returning cached instance`)
+    logger().debug(`${TAG} returning cached instance`)
     return Promise.resolve(instance)
   }
 
   const test = (type : new () => AbstractCache) : Promise<AbstractCache> => {
-    logger().trace(`${TAG} trying to instantiate ${type}`)
+    logger().debug(`${TAG} trying to instantiate ${type}`)
     let test : AbstractCache = new type()
     return test.setup(opts)
   }

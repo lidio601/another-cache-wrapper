@@ -1,6 +1,6 @@
 {
   "name": "another-cache-wrapper",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "custom cache interface",
   "main": "dist/index.js",
   "scripts": {
@@ -49,7 +49,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run build && npm test && npm publish && git push"
+      "pre-commit": "npm run build && npm test && npm publish",
+      "post-commit": "git push"
     }
   }
 }

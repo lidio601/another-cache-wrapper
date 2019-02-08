@@ -67,7 +67,7 @@ export function cachedMethodCall (
     }
 
     // otherwise call the function
-    const liveResult = await _.attempt(_.bind(method, thisArg, args))
+    const liveResult = await _.attempt(_.bind(method, thisArg, ...args))
 
     // if it raises an error
     if (_.isError(liveResult)) {

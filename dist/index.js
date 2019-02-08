@@ -60,7 +60,7 @@ function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identit
                 return cachedResult;
             }
             // otherwise call the function
-            const liveResult = yield index_1.default.attempt(index_1.default.bind(method, thisArg, args));
+            const liveResult = yield index_1.default.attempt(index_1.default.bind(method, thisArg, ...args));
             // if it raises an error
             if (index_1.default.isError(liveResult)) {
                 // "return" it

@@ -10,8 +10,9 @@ import { LocalStore } from 'super-cache'
 import MemoryCache from './MemoryCache'
 import AbstractCache from '../model/AbstractCache'
 import CacheOpts from '../model/CacheOpts'
-import logger from '../model/Logger'
+import { getLogger } from '../model/Logger'
 
+const logger = getLogger()
 const TAG = '[lib/cache/file]'
 
  /**

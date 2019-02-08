@@ -11,8 +11,9 @@ import AbstractCache from '../model/AbstractCache'
 import CacheOpts from '../model/CacheOpts'
 import cacheKey from '../cacheKey'
 import { DEFAULT_TTL } from '../ttl'
-import logger from '../model/Logger'
+import { getLogger } from '../model/Logger'
 
+const logger = getLogger()
 const TAG = '[lib/cache/memory]'
 
  /**

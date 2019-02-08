@@ -12,8 +12,9 @@ import FileCache from './adapter/FileCache'
 import IronCache from './adapter/IronCache'
 import MemCache from './adapter/MemCache'
 import CacheOpts from './model/CacheOpts'
-import logger from './model/Logger'
+import { getLogger } from './model/Logger'
 
+const logger = getLogger()
 let instance : false | AbstractCache = false
 
 const TAG = '[lib/cache/factory]'

@@ -11,7 +11,8 @@ const bluebird_1 = __importDefault(require("bluebird"));
 const lodash_1 = __importDefault(require("lodash"));
 const cacheKey_1 = __importDefault(require("../cacheKey"));
 const ttl_1 = require("../ttl");
-const Logger_1 = __importDefault(require("../model/Logger"));
+const Logger_1 = require("../model/Logger");
+const logger = Logger_1.getLogger();
 const TAG = '[lib/cache]';
 const maxRecursionCount = 10;
 /**
@@ -44,14 +45,14 @@ class AbstractCache {
         var checkOrFail = () => this.add(key, true, ttl)
             .then(stored => {
             if (!stored) {
-                Logger_1.default.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
+                logger.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
             }
             else {
-                Logger_1.default.info(`CACHE::${key}::LOCKED (recursion=${recursionCount})`);
+                logger.info(`CACHE::${key}::LOCKED (recursion=${recursionCount})`);
             }
             return stored;
         }, err => {
-            Logger_1.default.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
+            logger.warn(`CACHE::${key}::ALREADY-LOCKED (recursion=${recursionCount})`);
             return false;
         })
             .then(result => {
@@ -68,7 +69,7 @@ class AbstractCache {
     }
     unlock(key) {
         key = cacheKey_1.default(key);
-        Logger_1.default.info(`CACHE::${key}::UNLOCKED`);
+        logger.info(`CACHE::${key}::UNLOCKED`);
         return this.forget(key);
     }
 }

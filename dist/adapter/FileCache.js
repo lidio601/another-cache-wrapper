@@ -11,7 +11,8 @@ const bluebird_1 = __importDefault(require("bluebird"));
 const lodash_1 = __importDefault(require("lodash"));
 const super_cache_1 = require("super-cache");
 const MemoryCache_1 = __importDefault(require("./MemoryCache"));
-const Logger_1 = __importDefault(require("../model/Logger"));
+const Logger_1 = require("../model/Logger");
+const logger = Logger_1.getLogger();
 const TAG = '[lib/cache/file]';
 /**
 * Implements AbstractCache
@@ -29,7 +30,7 @@ class FileCache extends MemoryCache_1.default {
             const err = new Error('missing CACHEDIR config');
             return bluebird_1.default.reject(err);
         }
-        Logger_1.default.debug(`${TAG} setup`, opts);
+        logger.debug(`${TAG} setup`, opts);
         return bluebird_1.default.resolve()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
@@ -43,7 +44,7 @@ class FileCache extends MemoryCache_1.default {
                 resolve(this);
             }
             catch (err) {
-                Logger_1.default.error(`${TAG} error while connecting to filecache`, err);
+                logger.error(`${TAG} error while connecting to filecache`, err);
                 reject(err);
             }
         }))

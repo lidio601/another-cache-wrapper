@@ -11,8 +11,9 @@ import CacheOpts from './model/CacheOpts'
 import factory from './factory'
 import {default as _cacheKey} from './cacheKey'
 import {default as ttl} from './ttl'
-import logger from './model/Logger'
+import { getLogger } from './model/Logger'
 
+const logger = getLogger()
 export const DEFAULT_TTL = ttl.DEFAULT_TTL
 export const SHORT_TTL   = ttl.SHORT_TTL
 export const MEDIUM_TTL  = ttl.MEDIUM_TTL

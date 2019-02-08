@@ -14,7 +14,8 @@ const index_1 = __importDefault(require("lodash/index"));
 const AbstractCache_1 = __importDefault(require("../model/AbstractCache"));
 const cacheKey_1 = __importDefault(require("../cacheKey"));
 const ttl_1 = require("../ttl");
-const Logger_1 = __importDefault(require("../model/Logger"));
+const Logger_1 = require("../model/Logger");
+const logger = Logger_1.getLogger();
 const TAG = '[lib/cache/ironcache]';
 /**
 * Implements AbstractCache
@@ -27,7 +28,7 @@ class IronCache extends AbstractCache_1.default {
             return bluebird_1.default.resolve(self);
         }
         // test if opts contains the ironcache server parameter
-        Logger_1.default.debug(`${TAG} setup`, opts);
+        logger.debug(`${TAG} setup`, opts);
         if (index_1.default.isUndefined(opts) ||
             !index_1.default.has(opts, 'ironcache') ||
             !opts.ironcache ||
@@ -49,7 +50,7 @@ class IronCache extends AbstractCache_1.default {
         });
     }
     close() {
-        Logger_1.default.debug(`${TAG} closing`);
+        logger.debug(`${TAG} closing`);
         this.cache = undefined;
         return bluebird_1.default.resolve(true);
     }

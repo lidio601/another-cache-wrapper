@@ -11,4 +11,8 @@ export function setLogger(_logger: Logger) : void {
     logger = _logger
 }
 
-export default logger
+export function getLogger() : Logger {
+    return logger
+}
+
+export default getLogger

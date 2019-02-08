@@ -10,8 +10,9 @@ import { default as _ } from 'lodash'
 import cacheKey from '../cacheKey'
 import CacheOpts from './CacheOpts'
 import { LOCK_TTL } from '../ttl'
-import logger from '../model/Logger'
+import { getLogger } from '../model/Logger'
 
+const logger = getLogger()
 const TAG = '[lib/cache]'
 const maxRecursionCount = 10
 

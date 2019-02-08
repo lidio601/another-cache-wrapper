@@ -21,8 +21,9 @@ const tcp_reachability_1 = __importStar(require("tcp-reachability"));
 const AbstractCache_1 = __importDefault(require("../model/AbstractCache"));
 const cacheKey_1 = __importDefault(require("../cacheKey"));
 const ttl_1 = require("../ttl");
-const Logger_1 = __importDefault(require("../model/Logger"));
-tcp_reachability_1.setLogger(Logger_1.default);
+const Logger_1 = require("../model/Logger");
+const logger = Logger_1.getLogger();
+tcp_reachability_1.setLogger(logger);
 const TAG = '[lib/cache/memcached]';
 /**
 * Implements AbstractCache
@@ -35,7 +36,7 @@ class MemCache extends AbstractCache_1.default {
             return bluebird_1.default.resolve(self);
         }
         // test if opts contains the memcached server parameter
-        Logger_1.default.debug(`${TAG} setup`, opts);
+        logger.debug(`${TAG} setup`, opts);
         if (!index_1.default.has(opts, 'memcache') || !opts || index_1.default.isEmpty(opts.memcache)) {
             const err = new Error('missing MEMCACHED config');
             return bluebird_1.default.reject(err);
@@ -44,7 +45,7 @@ class MemCache extends AbstractCache_1.default {
         const url = 'http://' + opts.memcache;
         return tcp_reachability_1.default(url, false)
             .then(reachable => {
-            Logger_1.default.info(`${TAG} memcached host reachability`, {
+            logger.info(`${TAG} memcached host reachability`, {
                 reachable,
                 url
             });
@@ -54,16 +55,16 @@ class MemCache extends AbstractCache_1.default {
             // https://hub.docker.com/_/memcached/
             // docker run --rm -it -p 11211:11211 memcached:alpine memcached -m 64
             // https://github.com/ctavan/node-memcached
-            Logger_1.default.debug(`${TAG} connecting to memcached`, { url });
+            logger.debug(`${TAG} connecting to memcached`, { url });
             this.cache = new memcached_1.default(opts.memcache, {});
-            this.cache.on('failure', details => Logger_1.default.warn(`${TAG} server ${details.server} went down due to: ${details.messages.join('')}`, details));
-            this.cache.on('reconnecting', details => Logger_1.default.info(`${TAG} total downtime caused by server ${details.server}: ${details.totalDownTime}ms`, details));
-            this.cache.on('issue', details => Logger_1.default.info(`${TAG} issue caused by server ${details.server}: ${details.totalDownTime}ms`, details));
+            this.cache.on('failure', details => logger.warn(`${TAG} server ${details.server} went down due to: ${details.messages.join('')}`, details));
+            this.cache.on('reconnecting', details => logger.info(`${TAG} total downtime caused by server ${details.server}: ${details.totalDownTime}ms`, details));
+            this.cache.on('issue', details => logger.info(`${TAG} issue caused by server ${details.server}: ${details.totalDownTime}ms`, details));
             return this;
         });
     }
     close() {
-        Logger_1.default.debug(`${TAG} closing`);
+        logger.debug(`${TAG} closing`);
         this.cache && this.cache.end() && (this.cache = undefined);
         return bluebird_1.default.resolve(true);
     }

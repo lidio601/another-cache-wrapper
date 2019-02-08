@@ -10,5 +10,9 @@ function setLogger(_logger) {
     logger = _logger;
 }
 exports.setLogger = setLogger;
-exports.default = logger;
+function getLogger() {
+    return logger;
+}
+exports.getLogger = getLogger;
+exports.default = getLogger;
 //# sourceMappingURL=Logger.js.map

@@ -25,7 +25,7 @@ export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
   }
 
   const test = (type : new () => AbstractCache) : Promise<AbstractCache> => {
-    logger().debug(`${TAG} trying to instantiate ${type}`)
+    logger().debug(`${TAG} trying to instantiate ${type.constructor.name}`)
     let test : AbstractCache = new type()
     return test.setup(opts)
   }
@@ -33,24 +33,24 @@ export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
   // [IronCache, MemCache, FileCache]
   return test(IronCache)
     .catch(err => {
-      logger().error(`${TAG} IronCache error`, err)
+      logger().error(`${TAG} IronCache error: ${err.message}`)
       return test(MemCache)
     })
     .catch(err => {
-      logger().error(`${TAG} MemCache error`, err)
+      logger().error(`${TAG} MemCache error: ${err.message}`)
       return test(FileCache)
     })
     .catch(err => {
-      logger().error(`${TAG} FileCache error`, err)
+      logger().error(`${TAG} FileCache error: ${err.message}`)
       return test(MemoryCache)
     })
     .catch(err => {
-      logger().error(`${TAG} MemoryCache error`, err)
+      logger().error(`${TAG} MemoryCache error: ${err.message}`)
       throw err
     })
     .then(_instance => {
       instance = _instance
-      logger().info(`${TAG} new instance created`, instance)
+      logger().info(`${TAG} new instance created ${instance.constructor.name}`)
   
       // replace close function
       // to reset the internal state of this module

@@ -10,7 +10,11 @@ export default function cacheKey (key : any, prefixes ?: string[]|string) : stri
   let result = key
 
   if (_.isArray(key) || _.isObject(key)) {
-      result = hash(key)
+    // ensure it's a plain js object/array
+    key = JSON.parse(JSON.stringify(key));
+
+    // hash it!
+    result = hash(key);
   }
 
   if (!_.isNil(prefixes)) {

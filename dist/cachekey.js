@@ -12,6 +12,9 @@ const index_1 = __importDefault(require("lodash/index"));
 function cacheKey(key, prefixes) {
     let result = key;
     if (index_1.default.isArray(key) || index_1.default.isObject(key)) {
+        // ensure it's a plain js object/array
+        key = JSON.parse(JSON.stringify(key));
+        // hash it!
         result = object_hash_1.default(key);
     }
     if (!index_1.default.isNil(prefixes)) {

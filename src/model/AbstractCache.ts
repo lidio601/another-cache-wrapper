@@ -7,7 +7,7 @@
 import Promise from 'bluebird'
 import { default as _ } from 'lodash'
 
-import cacheKey from '../cacheKey'
+import cacheKey from '../cachekey'
 import CacheOpts from './CacheOpts'
 import { LOCK_TTL } from '../ttl'
 import logger from '../model/Logger'

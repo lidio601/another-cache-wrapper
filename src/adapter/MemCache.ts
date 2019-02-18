@@ -11,7 +11,7 @@ import {default as isReachable, setLogger} from 'tcp-reachability'
 
 import AbstractCache from '../model/AbstractCache'
 import CacheOpts from '../model/CacheOpts'
-import cacheKey from '../cacheKey'
+import cacheKey from '../cachekey'
 import { DEFAULT_TTL } from '../ttl'
 import logger from '../model/Logger'
 

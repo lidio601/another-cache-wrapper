@@ -9,7 +9,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bluebird_1 = __importDefault(require("bluebird"));
 const lodash_1 = __importDefault(require("lodash"));
-const cacheKey_1 = __importDefault(require("../cacheKey"));
+const cachekey_1 = __importDefault(require("../cachekey"));
 const ttl_1 = require("../ttl");
 const Logger_1 = __importDefault(require("../model/Logger"));
 const TAG = '[lib/cache]';
@@ -39,7 +39,7 @@ class AbstractCache {
      */
     lock(key, ttl) {
         ttl = lodash_1.default.defaultTo(ttl, ttl_1.LOCK_TTL);
-        key = cacheKey_1.default(key);
+        key = cachekey_1.default(key);
         let recursionCount = maxRecursionCount;
         var checkOrFail = () => this.add(key, true, ttl)
             .then(stored => {
@@ -67,7 +67,7 @@ class AbstractCache {
         return checkOrFail();
     }
     unlock(key) {
-        key = cacheKey_1.default(key);
+        key = cachekey_1.default(key);
         Logger_1.default().info(`CACHE::${key}::UNLOCKED`);
         return this.forget(key);
     }

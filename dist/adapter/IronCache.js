@@ -12,7 +12,7 @@ const iron_cache_1 = require("iron-cache");
 const bluebird_1 = __importDefault(require("bluebird"));
 const index_1 = __importDefault(require("lodash/index"));
 const AbstractCache_1 = __importDefault(require("../model/AbstractCache"));
-const cacheKey_1 = __importDefault(require("../cacheKey"));
+const cachekey_1 = __importDefault(require("../cachekey"));
 const ttl_1 = require("../ttl");
 const Logger_1 = __importDefault(require("../model/Logger"));
 const TAG = '[lib/cache/ironcache]';
@@ -59,7 +59,7 @@ class IronCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 // The value field must be a string or integer.
                 this.cache.put(this.name, key, {
                     value: JSON.stringify(value),
@@ -86,7 +86,7 @@ class IronCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.get(this.name, key, (err, res) => {
                     /*
                       res = {
@@ -117,7 +117,7 @@ class IronCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.put(this.name, key, {
                     value: 1,
                     expires_in: ttl || ttl_1.DEFAULT_TTL,
@@ -139,7 +139,7 @@ class IronCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.del(this.name, key, (err /*, res*/) => {
                     /*
                       res = {

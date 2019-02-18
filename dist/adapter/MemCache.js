@@ -19,7 +19,7 @@ const bluebird_1 = __importDefault(require("bluebird"));
 const index_1 = __importDefault(require("lodash/index"));
 const tcp_reachability_1 = __importStar(require("tcp-reachability"));
 const AbstractCache_1 = __importDefault(require("../model/AbstractCache"));
-const cacheKey_1 = __importDefault(require("../cacheKey"));
+const cachekey_1 = __importDefault(require("../cachekey"));
 const ttl_1 = require("../ttl");
 const Logger_1 = __importDefault(require("../model/Logger"));
 tcp_reachability_1.setLogger(Logger_1.default());
@@ -72,7 +72,7 @@ class MemCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.set(key, value, ttl || ttl_1.DEFAULT_TTL, err => {
                     if (err)
                         reject(err);
@@ -90,7 +90,7 @@ class MemCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.get(key, (err, value) => {
                     if (err)
                         reject(err);
@@ -108,7 +108,7 @@ class MemCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.add(key, value, ttl || ttl_1.DEFAULT_TTL, (err, value) => {
                     if (err && err.notStored)
                         resolve(false);
@@ -128,7 +128,7 @@ class MemCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.del(key, err => {
                     if (err)
                         reject(err);

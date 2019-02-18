@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const bluebird_1 = __importDefault(require("bluebird"));
 const super_cache_1 = require("super-cache");
 const AbstractCache_1 = __importDefault(require("../model/AbstractCache"));
-const cacheKey_1 = __importDefault(require("../cacheKey"));
+const cachekey_1 = __importDefault(require("../cachekey"));
 const ttl_1 = require("../ttl");
 const Logger_1 = __importDefault(require("../model/Logger"));
 const TAG = '[lib/cache/memory]';
@@ -49,7 +49,7 @@ class MemoryCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.set(key, value, ttl || ttl_1.DEFAULT_TTL, err => {
                     if (err)
                         reject(err);
@@ -67,7 +67,7 @@ class MemoryCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.get(key, (err, value) => {
                     if (err)
                         reject(err);
@@ -85,7 +85,7 @@ class MemoryCache extends AbstractCache_1.default {
             .setup()
             .then(() => new bluebird_1.default((resolve, reject) => {
             try {
-                key = cacheKey_1.default(key);
+                key = cachekey_1.default(key);
                 this.cache.delete(key, err => {
                     if (err)
                         reject(err);

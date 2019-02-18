@@ -9,7 +9,7 @@ import _ from 'lodash/index'
 import AbstractCache from './model/AbstractCache'
 import CacheOpts from './model/CacheOpts'
 import factory from './factory'
-import {default as _cacheKey} from './cacheKey'
+import {default as _cacheKey} from './cachekey'
 import {default as ttl} from './ttl'
 import logger from './model/Logger'
 

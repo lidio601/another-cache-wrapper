@@ -17,7 +17,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_1 = __importDefault(require("lodash/index"));
 const factory_1 = __importDefault(require("./factory"));
-const cacheKey_1 = __importDefault(require("./cacheKey"));
+const cachekey_1 = __importDefault(require("./cachekey"));
 const ttl_1 = __importDefault(require("./ttl"));
 const Logger_1 = __importDefault(require("./model/Logger"));
 exports.DEFAULT_TTL = ttl_1.default.DEFAULT_TTL;
@@ -32,7 +32,7 @@ function cache(opts) {
 }
 exports.cache = cache;
 function cacheKey(key, prefixes) {
-    return cacheKey_1.default(key, prefixes);
+    return cachekey_1.default(key, prefixes);
 }
 exports.cacheKey = cacheKey;
 function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identity, ttl = exports.DEFAULT_TTL, thisArg = null) {
@@ -50,7 +50,7 @@ function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identit
                 return method.apply(thisArg, args);
             }
             // workout cache key for this params
-            const cacheKey = cacheKey_1.default(partial, prefix);
+            const cacheKey = cachekey_1.default(partial, prefix);
             // lookup in cache
             const cachedResult = yield cache.get(cacheKey);
             // if result is found in cache

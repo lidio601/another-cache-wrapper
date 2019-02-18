@@ -1,9 +1,0 @@
-# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.12.0
-# ignores vulnerabilities until expiry date; change duration by modifying expiry date
-ignore:
-  'npm:memjs:20180627':
-    - super-cache > memjs:
-        reason: no patch available
-        expires: '2018-12-27T08:57:52.315Z'
-patch: {}

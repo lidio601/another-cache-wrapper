@@ -30,27 +30,26 @@ export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
     return test.setup(opts)
   }
 
-  // [IronCache, MemCache, FileCache]
   return test(IronCache)
     .catch(err => {
-      logger().error(`${TAG} IronCache error: ${err.message}`)
+      logger().debug(`${TAG} cannot create IronCache handler: ${err.message}`)
       return test(MemCache)
     })
     .catch(err => {
-      logger().error(`${TAG} MemCache error: ${err.message}`)
+      logger().debug(`${TAG} cannot create MemCache handler: ${err.message}`)
       return test(FileCache)
     })
     .catch(err => {
-      logger().error(`${TAG} FileCache error: ${err.message}`)
+      logger().debug(`${TAG} cannot create FileCache handler: ${err.message}`)
       return test(MemoryCache)
     })
     .catch(err => {
-      logger().error(`${TAG} MemoryCache error: ${err.message}`)
+      logger().debug(`${TAG} cannot create MemoryCache handler: ${err.message}`)
       throw err
     })
     .then(_instance => {
       instance = _instance
-      logger().info(`${TAG} new instance created ${instance.constructor.name}`)
+      logger().info(`${TAG} initialized ${instance.constructor.name}`)
   
       // replace close function
       // to reset the internal state of this module

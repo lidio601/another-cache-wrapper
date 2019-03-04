@@ -26,27 +26,26 @@ function factory(opts) {
         let test = new type();
         return test.setup(opts);
     };
-    // [IronCache, MemCache, FileCache]
     return test(IronCache_1.default)
         .catch(err => {
-        Logger_1.default().error(`${TAG} IronCache error: ${err.message}`);
+        Logger_1.default().debug(`${TAG} cannot create IronCache handler: ${err.message}`);
         return test(MemCache_1.default);
     })
         .catch(err => {
-        Logger_1.default().error(`${TAG} MemCache error: ${err.message}`);
+        Logger_1.default().debug(`${TAG} cannot create MemCache handler: ${err.message}`);
         return test(FileCache_1.default);
     })
         .catch(err => {
-        Logger_1.default().error(`${TAG} FileCache error: ${err.message}`);
+        Logger_1.default().debug(`${TAG} cannot create FileCache handler: ${err.message}`);
         return test(MemoryCache_1.default);
     })
         .catch(err => {
-        Logger_1.default().error(`${TAG} MemoryCache error: ${err.message}`);
+        Logger_1.default().debug(`${TAG} cannot create MemoryCache handler: ${err.message}`);
         throw err;
     })
         .then(_instance => {
         instance = _instance;
-        Logger_1.default().info(`${TAG} new instance created ${instance.constructor.name}`);
+        Logger_1.default().info(`${TAG} initialized ${instance.constructor.name}`);
         // replace close function
         // to reset the internal state of this module
         const origClose = instance.close;

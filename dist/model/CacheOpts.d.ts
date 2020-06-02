@@ -10,4 +10,8 @@ export default interface CacheOpts {
         project: string;
         secret: string;
     };
+    s3AccessKey?: string;
+    s3SecretKey?: string;
+    s3BucketName?: string;
+    s3Region?: string;
 }

@@ -47,6 +47,7 @@ function cachedMethodCall(prefix, method, keyExtractor = index_1.default.identit
             if (index_1.default.isError(partial)) {
                 Logger_1.default().error('cache :: error while extracting cachekey from args', partial);
                 // fallback to call unwrapped method
+                // @ts-ignore
                 return method.apply(thisArg, args);
             }
             // workout cache key for this params

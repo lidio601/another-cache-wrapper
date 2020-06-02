@@ -49,6 +49,7 @@ export function cachedMethodCall (
       logger().error('cache :: error while extracting cachekey from args', partial)
 
       // fallback to call unwrapped method
+      // @ts-ignore
       return method.apply(thisArg, args)
     }
 

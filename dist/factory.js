@@ -13,6 +13,7 @@ const MemoryCache_1 = __importDefault(require("./adapter/MemoryCache"));
 const FileCache_1 = __importDefault(require("./adapter/FileCache"));
 const IronCache_1 = __importDefault(require("./adapter/IronCache"));
 const MemCache_1 = __importDefault(require("./adapter/MemCache"));
+const S3Cache_1 = __importDefault(require("./adapter/S3Cache"));
 const Logger_1 = __importDefault(require("./model/Logger"));
 let instance = false;
 const TAG = '[lib/cache/factory]';
@@ -26,7 +27,11 @@ function factory(opts) {
         let test = new type();
         return test.setup(opts);
     };
-    return test(IronCache_1.default)
+    return test(S3Cache_1.default)
+        .catch(err => {
+        Logger_1.default().debug(`${TAG} cannot create IronCache handler: ${err.message}`);
+        return test(IronCache_1.default);
+    })
         .catch(err => {
         Logger_1.default().debug(`${TAG} cannot create IronCache handler: ${err.message}`);
         return test(MemCache_1.default);
@@ -55,7 +60,7 @@ function factory(opts) {
                     return bluebird_1.default.resolve(true);
                 }
                 Logger_1.default().info(`${TAG} close called`);
-                return origClose.apply(instance, null)
+                return origClose.apply(instance, [])
                     .then(result => {
                     instance = false;
                     return result;

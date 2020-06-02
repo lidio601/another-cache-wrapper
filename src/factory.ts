@@ -11,6 +11,7 @@ import MemoryCache from './adapter/MemoryCache'
 import FileCache from './adapter/FileCache'
 import IronCache from './adapter/IronCache'
 import MemCache from './adapter/MemCache'
+import S3Cache from './adapter/S3Cache'
 import CacheOpts from './model/CacheOpts'
 import logger from './model/Logger'
 
@@ -30,7 +31,11 @@ export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
     return test.setup(opts)
   }
 
-  return test(IronCache)
+  return test(S3Cache)
+    .catch(err => {
+      logger().debug(`${TAG} cannot create IronCache handler: ${err.message}`)
+      return test(IronCache)
+    })
     .catch(err => {
       logger().debug(`${TAG} cannot create IronCache handler: ${err.message}`)
       return test(MemCache)
@@ -61,7 +66,7 @@ export default function factory (opts ?: CacheOpts) : Promise<AbstractCache> {
           }
   
           logger().info(`${TAG} close called`)
-          return origClose.apply(instance, null)
+          return origClose.apply(instance, [])
             .then(result => {
               instance = false
   
